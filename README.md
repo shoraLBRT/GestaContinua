@@ -1,1 +1,1 @@
-# GestaContinua.Application
+# GestaContinua
