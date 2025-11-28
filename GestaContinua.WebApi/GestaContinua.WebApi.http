@@ -1,0 +1,6 @@
+@GestaContinua.WebApi_HostAddress = http://localhost:5241
+
+GET {{GestaContinua.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
