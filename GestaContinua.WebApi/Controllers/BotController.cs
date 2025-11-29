@@ -28,7 +28,7 @@ namespace GestaContinua.WebApi.Controllers
         }
 
         [HttpPost("webhook")]
-        public async Task<IActionResult> Webhook([FromBody] Update update)
+        public async System.Threading.Tasks.Task<IActionResult> Webhook([FromBody] Update update)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace GestaContinua.WebApi.Controllers
             }
         }
 
-        private async Task HandleMessageAsync(Message message)
+        private async System.Threading.Tasks.Task HandleMessageAsync(Telegram.Bot.Types.Message message)
         {
             if (message.Text != null)
             {
@@ -78,7 +78,7 @@ namespace GestaContinua.WebApi.Controllers
             }
         }
 
-        private async Task HandleStartCommand(Message message)
+        private async System.Threading.Tasks.Task HandleStartCommand(Telegram.Bot.Types.Message message)
         {
             var telegramId = message.From.Id;
 
@@ -87,7 +87,7 @@ namespace GestaContinua.WebApi.Controllers
             if (existingUser == null)
             {
                 // Create new user
-                var newUser = new User
+                var newUser = new Domain.Entities.User
                 {
                     TelegramId = telegramId,
                     CreatedAt = DateTime.UtcNow,
@@ -101,17 +101,17 @@ namespace GestaContinua.WebApi.Controllers
             await SendMessageAsync(message.Chat.Id, "Welcome to GestaContinua! Use /add_task to create a new task, /list_tasks to see your tasks, and /report to update your progress.");
         }
 
-        private async Task HandleAddTaskCommand(Message message)
+        private async System.Threading.Tasks.Task HandleAddTaskCommand(Telegram.Bot.Types.Message message)
         {
             await SendMessageAsync(message.Chat.Id, "Adding tasks via command is not implemented yet. You can use the web API to create tasks.");
         }
 
-        private async Task HandleReportCommand(Message message)
+        private async System.Threading.Tasks.Task HandleReportCommand(Telegram.Bot.Types.Message message)
         {
             await SendMessageAsync(message.Chat.Id, "Reporting progress via command is not implemented yet. You can use the web API to update progress.");
         }
 
-        private async Task HandleListTasksCommand(Message message)
+        private async System.Threading.Tasks.Task HandleListTasksCommand(Telegram.Bot.Types.Message message)
         {
             var telegramId = message.From.Id;
             var user = await _userRepository.GetByTelegramIdAsync(telegramId);
@@ -125,7 +125,7 @@ namespace GestaContinua.WebApi.Controllers
             var tasks = await _taskRepository.GetActiveByUserIdAsync(user.Id);
             var tasksList = "Your active tasks:\n";
 
-            foreach (var task in tasks)
+            foreach (Domain.Entities.Task task in tasks)
             {
                 tasksList += $"• {task.Name}: {task.Progress}/{task.Goal} ({task.Status})\n";
             }
@@ -138,13 +138,13 @@ namespace GestaContinua.WebApi.Controllers
             await SendMessageAsync(message.Chat.Id, tasksList);
         }
 
-        private async Task HandleCallbackQueryAsync(CallbackQuery callbackQuery)
+        private async System.Threading.Tasks.Task HandleCallbackQueryAsync(CallbackQuery callbackQuery)
         {
             // Handle inline keyboard callbacks
             await _botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
         }
 
-        private async Task SendMessageAsync(long chatId, string text)
+        private async System.Threading.Tasks.Task SendMessageAsync(long chatId, string text)
         {
             await _botClient.SendTextMessageAsync(chatId, text);
         }

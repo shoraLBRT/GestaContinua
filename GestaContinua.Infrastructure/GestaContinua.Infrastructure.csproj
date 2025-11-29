@@ -18,14 +18,4 @@
     <ProjectReference Include="..\GestaContinua.Application\GestaContinua.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Include="Data\GestaContinuaDbContext.cs" />
-    <Compile Include="Repositories\EfCategoryRepository.cs" />
-    <Compile Include="Repositories\EfProgressRecordRepository.cs" />
-    <Compile Include="Repositories\EfTaskRepository.cs" />
-    <Compile Include="Repositories\EfUserRepository.cs" />
-    <Compile Include="Services\TelegramNotificationService.cs" />
-    <Compile Include="Services\ReminderBackgroundService.cs" />
-  </ItemGroup>
-
 </Project>

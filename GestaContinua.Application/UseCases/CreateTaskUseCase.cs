@@ -1,5 +1,6 @@
 using GestaContinua.Domain.Entities;
 using GestaContinua.Domain.Repositories;
+using GestaContinua.Application.Services;
 using System;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace GestaContinua.Application.UseCases
             _taskScheduler = taskScheduler;
         }
 
-        public async Task<Guid> ExecuteAsync(
+        public async System.Threading.Tasks.Task<Guid> ExecuteAsync(
             Guid userId,
             Guid categoryId,
             string name,
@@ -61,7 +62,7 @@ namespace GestaContinua.Application.UseCases
             }
 
             // Create task
-            var task = new Task
+            var task = new Domain.Entities.Task
             {
                 Id = Guid.NewGuid(),
                 UserId = userId,

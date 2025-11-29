@@ -5,7 +5,7 @@ namespace GestaContinua.Application.Services
 {
     public interface ITaskScheduler
     {
-        DateTime CalculateNextReminder(Task task, DateTime lastReminder);
-        void RescheduleTask(Task task);
+        DateTime CalculateNextReminder(Domain.Entities.Task task, DateTime lastReminder);
+        void RescheduleTask(Domain.Entities.Task task);
     }
 }

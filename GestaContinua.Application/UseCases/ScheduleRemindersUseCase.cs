@@ -1,5 +1,6 @@
 using GestaContinua.Domain.Entities;
 using GestaContinua.Domain.Repositories;
+using GestaContinua.Application.Services;
 using System;
 using System.Threading.Tasks;
 
@@ -21,11 +22,11 @@ namespace GestaContinua.Application.UseCases
             _notificationService = notificationService;
         }
 
-        public async Task ExecuteAsync(DateTime now)
+        public async System.Threading.Tasks.Task ExecuteAsync(DateTime now)
         {
             var tasks = await _taskRepository.GetWithRemindersDueAsync(now);
 
-            foreach (var task in tasks)
+            foreach (Domain.Entities.Task task in tasks)
             {
                 // Get user to send notification
                 var user = await _userRepository.GetByIdAsync(task.UserId);

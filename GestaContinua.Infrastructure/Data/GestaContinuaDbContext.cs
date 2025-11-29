@@ -11,7 +11,7 @@ namespace GestaContinua.Infrastructure.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Task> Tasks { get; set; }
+        public DbSet<Domain.Entities.Task> Tasks { get; set; }
         public DbSet<ProgressRecord> ProgressRecords { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,7 +30,7 @@ namespace GestaContinua.Infrastructure.Data
                 entity.Property(e => e.Description).HasMaxLength(500);
             });
 
-            modelBuilder.Entity<Task>(entity =>
+            modelBuilder.Entity<Domain.Entities.Task>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(200);

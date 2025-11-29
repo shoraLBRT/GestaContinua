@@ -6,15 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Include="Entities\Category.cs" />
-    <Compile Include="Entities\ProgressRecord.cs" />
-    <Compile Include="Entities\Task.cs" />
-    <Compile Include="Entities\User.cs" />
-    <Compile Include="Repositories\ICategoryRepository.cs" />
-    <Compile Include="Repositories\IProgressRecordRepository.cs" />
-    <Compile Include="Repositories\ITaskRepository.cs" />
-    <Compile Include="Repositories\IUserRepository.cs" />
-  </ItemGroup>
-
 </Project>

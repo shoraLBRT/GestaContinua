@@ -1,5 +1,6 @@
 using GestaContinua.Domain.Entities;
 using GestaContinua.Domain.Repositories;
+using GestaContinua.Application.Services;
 using System;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace GestaContinua.Application.UseCases
             _taskScheduler = taskScheduler;
         }
 
-        public async Task<bool> ExecuteAsync(Guid taskId, object value)
+        public async System.Threading.Tasks.Task<bool> ExecuteAsync(Guid taskId, object value)
         {
             var task = await _taskRepository.GetByIdAsync(taskId);
             if (task == null)
@@ -94,7 +95,7 @@ namespace GestaContinua.Application.UseCases
             }
         }
 
-        private void UpdateTaskProgress(Task task, object value)
+        private void UpdateTaskProgress(Domain.Entities.Task task, object value)
         {
             switch (task.InputFormat)
             {

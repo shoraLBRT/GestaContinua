@@ -6,7 +6,7 @@ namespace GestaContinua.Application.Services
 {
     public class TaskScheduler : ITaskScheduler
     {
-        public DateTime CalculateNextReminder(Task task, DateTime lastReminder)
+        public DateTime CalculateNextReminder(Domain.Entities.Task task, DateTime lastReminder)
         {
             return task.Schedule.ToLower() switch
             {
@@ -19,7 +19,7 @@ namespace GestaContinua.Application.Services
             };
         }
 
-        public void RescheduleTask(Task task)
+        public void RescheduleTask(Domain.Entities.Task task)
         {
             if (task.Status != "Completed" && task.Status != "Paused")
             {
@@ -27,7 +27,7 @@ namespace GestaContinua.Application.Services
             }
         }
 
-        private TimeSpan GetTaskTime(Task task)
+        private TimeSpan GetTaskTime(Domain.Entities.Task task)
         {
             // For simplicity, default to 9:00 AM
             // In a more sophisticated implementation, this could be configurable per task

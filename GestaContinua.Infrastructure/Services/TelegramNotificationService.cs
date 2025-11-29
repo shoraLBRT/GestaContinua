@@ -8,12 +8,10 @@ namespace GestaContinua.Infrastructure.Services
     public class TelegramNotificationService : INotificationService
     {
         private readonly ITelegramBotClient _botClient;
-        private readonly string _botToken;
 
-        public TelegramNotificationService(ITelegramBotClient botClient, string botToken)
+        public TelegramNotificationService(ITelegramBotClient botClient)
         {
             _botClient = botClient;
-            _botToken = botToken;
         }
 
         public async Task<bool> SendReminderAsync(long telegramId, Guid taskId, string message)

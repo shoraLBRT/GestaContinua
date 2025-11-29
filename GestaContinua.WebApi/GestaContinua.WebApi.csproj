@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GestaContinua.Application\GestaContinua.Application.csproj" />
     <ProjectReference Include="..\GestaContinua.Domain\GestaContinua.Domain.csproj" />
+    <ProjectReference Include="..\GestaContinua.Infrastructure\GestaContinua.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

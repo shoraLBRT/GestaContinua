@@ -7,20 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="DTOs\CreateTaskDto.cs" />
-    <Compile Include="DTOs\UpdateProgressDto.cs" />
-    <Compile Include="DTOs\UpdateTaskStatusDto.cs" />
-    <Compile Include="Services\ITaskScheduler.cs" />
-    <Compile Include="Services\INotificationService.cs" />
-    <Compile Include="Services\TaskScheduler.cs" />
-    <Compile Include="Services\UserService.cs" />
-    <Compile Include="UseCases\CreateTaskUseCase.cs" />
-    <Compile Include="UseCases\ProcessUserResponseUseCase.cs" />
-    <Compile Include="UseCases\ScheduleRemindersUseCase.cs" />
-    <Compile Include="UseCases\UpdateTaskStatusUseCase.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\GestaContinua.Domain\GestaContinua.Domain.csproj" />
   </ItemGroup>
 

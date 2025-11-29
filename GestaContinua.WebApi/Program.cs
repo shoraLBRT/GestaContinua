@@ -27,11 +27,22 @@ builder.Services.AddScoped<ITaskRepository, EfTaskRepository>();
 builder.Services.AddScoped<IProgressRecordRepository, EfProgressRecordRepository>();
 
 // Register application services
-builder.Services.AddScoped<ITaskScheduler, TaskScheduler>();
+builder.Services.AddScoped<ITaskScheduler, GestaContinua.Application.Services.TaskScheduler>();
 
 // Register Telegram bot client and notification service
-var botToken = builder.Configuration["TelegramBotToken"] ?? "your-telegram-bot-token";
-builder.Services.AddScoped<ITelegramBotClient>(provider => new TelegramBotClient(botToken));
+var botToken = builder.Configuration["TelegramBotToken"];
+if (string.IsNullOrEmpty(botToken))
+{
+    Console.WriteLine("Warning: TelegramBotToken is not configured in app settings or user secrets.");
+}
+else
+{
+    Console.WriteLine("TelegramBotToken loaded from configuration.");
+}
+
+// Register ITelegramBotClient with the token from configuration
+var botTokenForRegistration = builder.Configuration["TelegramBotToken"] ?? "your-telegram-bot-token";
+builder.Services.AddScoped<ITelegramBotClient>(provider => new TelegramBotClient(botTokenForRegistration));
 builder.Services.AddScoped<INotificationService, TelegramNotificationService>();
 
 // Register use cases
