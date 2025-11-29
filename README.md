@@ -11,7 +11,7 @@ A personal project for self-tracking and life optimization through data persiste
 
 ## About
 
-GestaContinua is a personal project born out of a desire to maintain a digital log of my own life experiences, habits, and progress. The primary goal is to create a system for storing personal data in a database with eventual capabilities for aggregation, analytics, and optimization of personal life patterns. This project serves as both a learning exercise in software development and a practical tool for personal improvement.
+GestaContinua is a personal project born out of a desire to maintain a digital log of my own life experiences, habits, and progress. The primary goal is to create a system for storing personal data in a database with eventual capabilities for aggregation, analytics, and optimization of personal life patterns.
 
 The system helps track tasks with customizable schedules and progress tracking, integrating with Telegram for a conversational interface to managing personal goals and habits. This is very much a work in progress and experimental in nature.
 
