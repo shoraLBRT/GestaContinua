@@ -28,6 +28,7 @@ builder.Services.AddScoped<IProgressRecordRepository, EfProgressRecordRepository
 
 // Register application services
 builder.Services.AddScoped<ITaskScheduler, GestaContinua.Application.Services.TaskScheduler>();
+builder.Services.AddScoped<IProgressRecordMappingService, ProgressRecordMappingService>();
 
 // Register Telegram bot client and notification service
 var botToken = builder.Configuration["TelegramBotToken"];

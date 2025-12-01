@@ -2,6 +2,7 @@ using GestaContinua.Domain.Entities;
 using GestaContinua.Domain.Repositories;
 using GestaContinua.Application.Services;
 using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace GestaContinua.Application.UseCases
@@ -43,7 +44,7 @@ namespace GestaContinua.Application.UseCases
             {
                 Id = Guid.NewGuid(),
                 TaskId = taskId,
-                Value = value,
+                ValueJson = JsonSerializer.Serialize(value),
                 RecordedAt = DateTime.UtcNow,
                 IsCompleted = value is bool boolValue ? boolValue : true
             };

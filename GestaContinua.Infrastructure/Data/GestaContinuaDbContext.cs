@@ -39,10 +39,7 @@ namespace GestaContinua.Infrastructure.Data
                 entity.Property(e => e.InputFormat).HasMaxLength(50);
             });
 
-            modelBuilder.Entity<ProgressRecord>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-            });
+            modelBuilder.ApplyConfiguration(new ProgressRecordConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

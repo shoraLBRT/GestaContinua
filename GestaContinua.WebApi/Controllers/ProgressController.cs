@@ -1,6 +1,7 @@
 using GestaContinua.Application.DTOs;
 using GestaContinua.Application.UseCases;
 using GestaContinua.Domain.Repositories;
+using GestaContinua.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -13,13 +14,16 @@ namespace GestaContinua.WebApi.Controllers
     {
         private readonly ProcessUserResponseUseCase _processUserResponseUseCase;
         private readonly IProgressRecordRepository _progressRecordRepository;
+        private readonly IProgressRecordMappingService _mappingService;
 
         public ProgressController(
             ProcessUserResponseUseCase processUserResponseUseCase,
-            IProgressRecordRepository progressRecordRepository)
+            IProgressRecordRepository progressRecordRepository,
+            IProgressRecordMappingService mappingService)
         {
             _processUserResponseUseCase = processUserResponseUseCase;
             _progressRecordRepository = progressRecordRepository;
+            _mappingService = mappingService;
         }
 
         [HttpPost]
@@ -30,10 +34,11 @@ namespace GestaContinua.WebApi.Controllers
         }
 
         [HttpGet("{taskId}")]
-        public async Task<ActionResult<object>> GetProgress([FromRoute] Guid taskId)
+        public async Task<ActionResult<IEnumerable<ProgressRecordDto>>> GetProgress([FromRoute] Guid taskId)
         {
             var progressRecords = await _progressRecordRepository.GetByTaskIdAsync(taskId);
-            return Ok(progressRecords);
+            var dtos = _mappingService.ToDtoList(progressRecords);
+            return Ok(dtos);
         }
     }
 }
