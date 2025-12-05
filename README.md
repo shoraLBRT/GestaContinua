@@ -58,7 +58,6 @@ This project is currently under active development and should be considered expe
 ### Planned Features
 - Comprehensive dashboard with analytics and charts
 - Advanced reporting and visualization of personal data
-- Mobile application for iOS and Android
 - Data export and backup functionality
 - Enhanced notification and reminder system
 - Customizable goal setting and achievement tracking
