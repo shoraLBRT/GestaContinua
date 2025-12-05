@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentations", "Presentati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaContinua.WebApi", "GestaContinua.WebApi\GestaContinua.WebApi.csproj", "{D5252FD1-E629-4F33-BF0B-81FC756EFF76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaContinua.Infrastructure", "GestaContinua.Infrastructure\GestaContinua.Infrastructure.csproj", "{F86596A3-5824-5A30-690B-4E373304D3B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{D5252FD1-E629-4F33-BF0B-81FC756EFF76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5252FD1-E629-4F33-BF0B-81FC756EFF76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5252FD1-E629-4F33-BF0B-81FC756EFF76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F86596A3-5824-5A30-690B-4E373304D3B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F86596A3-5824-5A30-690B-4E373304D3B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F86596A3-5824-5A30-690B-4E373304D3B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F86596A3-5824-5A30-690B-4E373304D3B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
