@@ -5,6 +5,7 @@ using GestaContinua.Infrastructure.Data;
 using GestaContinua.Infrastructure.Repositories;
 using GestaContinua.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using Telegram.Bot;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,10 +16,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add Entity Framework
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-    "Server=(localdb)\\mssqllocaldb;Database=GestaContinuaDb;Trusted_Connection=true;MultipleActiveResultSets=true";
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrEmpty(connectionString))
+{
+    Console.WriteLine("Warning: Connection string 'DefaultConnection' not found in configuration. Please set it using user secrets or environment variables.");
+    // Provide a default connection string for development - this should be overridden in production
+    connectionString = "Host=localhost;Database=GestaContinuaDb;Username=postgres;Password=your_password";
+}
 builder.Services.AddDbContext<GestaContinuaDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseNpgsql(connectionString));
 
 // Register domain repositories
 builder.Services.AddScoped<IUserRepository, EfUserRepository>();
@@ -42,7 +48,13 @@ else
 }
 
 // Register ITelegramBotClient with the token from configuration
-var botTokenForRegistration = builder.Configuration["TelegramBotToken"] ?? "your-telegram-bot-token";
+var botTokenForRegistration = builder.Configuration["TelegramBotToken"];
+if (string.IsNullOrEmpty(botTokenForRegistration))
+{
+    Console.WriteLine("Warning: TelegramBotToken not configured. Please set it using user secrets or environment variables.");
+    // Use a placeholder token to avoid runtime errors, but the service won't function properly
+    botTokenForRegistration = "YOUR_TELEGRAM_BOT_TOKEN";
+}
 builder.Services.AddScoped<ITelegramBotClient>(provider => new TelegramBotClient(botTokenForRegistration));
 builder.Services.AddScoped<INotificationService, TelegramNotificationService>();
 
@@ -68,4 +80,29 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-app.Run();
+// Ensure database is created
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<GestaContinuaDbContext>();
+    try
+    {
+        // Wait a bit to ensure PostgreSQL server is ready (useful for containerized setups)
+        await Task.Delay(1000);
+
+        context.Database.EnsureCreated();
+        Console.WriteLine("Database ensured successfully.");
+    }
+    catch (NpgsqlException ex)
+    {
+        Console.WriteLine($"A PostgreSQL error occurred while ensuring the database: {ex.Message}");
+        Console.WriteLine("Make sure PostgreSQL server is running and connection string is correct.");
+        throw;
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An unexpected error occurred while ensuring the database: {ex.Message}");
+        throw;
+    }
+}
+
+await app.RunAsync();
