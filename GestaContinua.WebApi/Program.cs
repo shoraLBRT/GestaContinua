@@ -80,29 +80,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-// Ensure database is created
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<GestaContinuaDbContext>();
-    try
-    {
-        // Wait a bit to ensure PostgreSQL server is ready (useful for containerized setups)
-        await Task.Delay(1000);
-
-        context.Database.EnsureCreated();
-        Console.WriteLine("Database ensured successfully.");
-    }
-    catch (NpgsqlException ex)
-    {
-        Console.WriteLine($"A PostgreSQL error occurred while ensuring the database: {ex.Message}");
-        Console.WriteLine("Make sure PostgreSQL server is running and connection string is correct.");
-        throw;
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"An unexpected error occurred while ensuring the database: {ex.Message}");
-        throw;
-    }
-}
+// Initialize the database
+await GestaContinua.Infrastructure.Data.DatabaseInitializer.InitializeDatabaseAsync(app.Services);
 
 await app.RunAsync();
