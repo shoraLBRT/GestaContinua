@@ -1,6 +1,7 @@
 using GestaContinua.Application.UseCases;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,12 +11,14 @@ namespace GestaContinua.Infrastructure.Services
     public class ReminderBackgroundService : BackgroundService
     {
         private readonly IServiceScopeFactory _scopeFactory;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly ILogger<ReminderBackgroundService> _logger;
+        private readonly TimeSpan _interval;
 
-        public ReminderBackgroundService(IServiceScopeFactory scopeFactory, IServiceProvider serviceProvider)
+        public ReminderBackgroundService(IServiceScopeFactory scopeFactory, ILogger<ReminderBackgroundService> logger)
         {
             _scopeFactory = scopeFactory;
-            _serviceProvider = serviceProvider;
+            _logger = logger;
+            _interval = TimeSpan.FromMinutes(2); // Default interval
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -28,16 +31,17 @@ namespace GestaContinua.Infrastructure.Services
                 
                 try
                 {
+                    _logger.LogDebug("Executing ScheduleRemindersUseCase at {ExecutionTime}", DateTime.UtcNow);
                     await scheduleRemindersUseCase.ExecuteAsync(DateTime.UtcNow);
+                    _logger.LogDebug("Successfully executed ScheduleRemindersUseCase");
                 }
                 catch (Exception ex)
                 {
-                    // Log the exception in a real implementation
-                    Console.WriteLine($"Error in ReminderBackgroundService: {ex.Message}");
+                    _logger.LogError(ex, "Error occurred while executing ScheduleRemindersUseCase at {ExecutionTime}", DateTime.UtcNow);
                 }
 
-                // Check every 2 minutes for due reminders
-                await Task.Delay(TimeSpan.FromMinutes(2), stoppingToken);
+                _logger.LogDebug("Waiting for {Interval} before next reminder check", _interval);
+                await Task.Delay(_interval, stoppingToken);
             }
         }
     }
